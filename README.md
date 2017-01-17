@@ -8,7 +8,7 @@
 ### Approach
 
 The rules list can be built dynamically in a jinja2 template. This can then be looked up and read in
-a variable using *lookup*  and the *from_yaml* filter
+a variable using **lookup**  and the **from_yaml** filter
 
 ```
 {{ lookup('template', './security_groups.j2') | from_yaml }}
