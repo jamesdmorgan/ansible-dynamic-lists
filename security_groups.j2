@@ -1,0 +1,18 @@
+
+- proto: tcp
+  from_port: 80
+  to_port: 80
+  group_name: "{{ item }}_riemann_grafana_elb"
+- proto: tcp
+  from_port: 5555
+  to_port: 5556
+{% for peer in vpcs[item]['peered_env'] %}
+- proto: tcp
+  from_port: 5555
+  to_port: 5555
+  cidr_ip: "{{vpcs[peer]['cidr']}}"
+- proto: udp
+  from_port: 5555
+  to_port: 5555
+  cidr_ip: "{{vpcs[peer]['cidr']}}"
+{% endfor %}

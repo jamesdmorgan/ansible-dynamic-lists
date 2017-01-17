@@ -1,0 +1,62 @@
+---
+
+- hosts: localhost
+  connection: local
+  vars:
+    vpcs:
+      test:
+          cidr: 10.XXX.0.0/16
+          dns: 10.XXX.0.2
+          peered_env:
+            - mag-test
+            - mag-test-old
+      mag-uat-old:
+          cidr: 10.XXX.128.0/20
+          dns: 10.XXX.128.2
+          peered_env:
+            - uat
+      mag-test-old:
+          cidr: 10.XXX.128.0/20
+          dns: 10.XXX.128.2
+          peered_env:
+            - test
+      mag-test:
+          cidr: 10.XXX.0.0/16
+          dns: 10.XXX.0.2
+          peered_env:
+            - test
+      uat:
+          cidr: 10.XXX.0.0/16
+          dns: 10.XXX.0.2
+          peered_env:
+            - mag-uat
+            - mag-uat-old
+      mag-uat:
+          cidr: 10.XXX.0.0/16
+          dns: 10.XXX.0.2
+          peered_env:
+            - uat
+      prod:
+          cidr: 10.XXX.0.0/16
+          dns: 10.XXX.0.2
+          peered_env:
+            - mag-prod
+            - mag-prod-old
+      mag-prod:
+          cidr: 10.XXX.128.0/16
+          dns: 10.XXX.128.2
+          peered_env:
+            - prod
+      mag-prod-old:
+          cidr: 10.XXX.128.0/16
+          dns: 10.XXX.128.2
+          peered_env:
+            - prod
+
+  tasks:
+    - debug: msg="{{ lookup('template', './security_groups.j2') | from_yaml }}"
+      with_items:
+        - test
+        - uat
+        - prod
+
